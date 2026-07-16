@@ -33,7 +33,16 @@ public class ScheduleTriggerReceiver extends BroadcastReceiver {
         int scheduleId = intent.getIntExtra(EXTRA_SCHEDULE_ID, -1);
         String scheduleName = intent.getStringExtra(EXTRA_SCHEDULE_NAME);
         int durationMinutes = intent.getIntExtra(EXTRA_DURATION_MINUTES, 0);
-        
+
+        ScheduleManager scheduleManager = new ScheduleManager(context);
+        ScheduleModel schedule = scheduleId != -1 ? scheduleManager.getScheduleById(scheduleId) : null;
+
+        // Re-arm the next occurrence FIRST so no early return below can break the chain
+        if (schedule != null && schedule.isEnabled()
+                && schedule.getRepeatType() != ScheduleModel.RepeatType.ONCE) {
+            new com.grepguru.zenlock.utils.ScheduleActivator(context).scheduleSchedule(schedule);
+        }
+
         if (scheduleId == -1 || durationMinutes <= 0) {
             Log.e(TAG, "Invalid schedule data received");
             return;
@@ -69,10 +78,6 @@ public class ScheduleTriggerReceiver extends BroadcastReceiver {
             return;
         }
         
-        // Verify schedule still exists and is enabled
-        ScheduleManager scheduleManager = new ScheduleManager(context);
-        ScheduleModel schedule = scheduleManager.getScheduleById(scheduleId);
-        
         if (schedule == null || !schedule.isEnabled()) {
             Log.w(TAG, "Schedule no longer exists or is disabled, skipping");
             return;
@@ -106,8 +111,11 @@ public class ScheduleTriggerReceiver extends BroadcastReceiver {
             LockScreenLauncher.launchWithNotification(context, scheduleName, scheduleId, durationMinutes);
         }
         
-        // Reschedule for next occurrence (if recurring)
-        rescheduleIfNeeded(context, schedule);
+        if (schedule.getRepeatType() == ScheduleModel.RepeatType.ONCE) {
+            schedule.setEnabled(false);
+            scheduleManager.updateSchedule(schedule);
+            Log.d(TAG, "Disabled one-time schedule: " + schedule.getName());
+        }
     }
     
     /**
@@ -170,22 +178,4 @@ public class ScheduleTriggerReceiver extends BroadcastReceiver {
         }
     }
     
-    /**
-     * Reschedule recurring schedules for next occurrence
-     */
-    private void rescheduleIfNeeded(Context context, ScheduleModel schedule) {
-        if (schedule.getRepeatType() != ScheduleModel.RepeatType.ONCE) {
-            // For recurring schedules, reschedule for next occurrence
-            com.grepguru.zenlock.utils.ScheduleActivator activator = 
-                new com.grepguru.zenlock.utils.ScheduleActivator(context);
-            activator.scheduleSchedule(schedule);
-            Log.d(TAG, "Rescheduled recurring schedule: " + schedule.getName());
-        } else {
-            // For one-time schedules, disable them after execution
-            ScheduleManager scheduleManager = new ScheduleManager(context);
-            schedule.setEnabled(false);
-            scheduleManager.updateSchedule(schedule);
-            Log.d(TAG, "Disabled one-time schedule: " + schedule.getName());
-        }
-    }
 }

@@ -61,12 +61,6 @@ public class ScheduleActivator {
                 return;
             }
             
-            // Check permission before setting alarms
-            if (!AlarmPermissionManager.canScheduleExactAlarms(context)) {
-                Log.e(TAG, "Cannot schedule exact alarms - permission not granted");
-                return;
-            }
-            
             if (alarmManager == null) {
                 Log.e(TAG, "AlarmManager is null");
                 return;
@@ -104,14 +98,9 @@ public class ScheduleActivator {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
             
-            // Set exact alarm
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                triggerTime.getTimeInMillis(),
-                pendingIntent
-            );
-            
-            Log.d(TAG, "Scheduled " + schedule.getName() + " for " + 
+            setAlarm(triggerTime.getTimeInMillis(), pendingIntent);
+
+            Log.d(TAG, "Scheduled " + schedule.getName() + " for " +
                   String.format("%02d:%02d on %s", 
                               triggerTime.get(Calendar.HOUR_OF_DAY), 
                               triggerTime.get(Calendar.MINUTE),
@@ -152,13 +141,8 @@ public class ScheduleActivator {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
             
-            // Set exact alarm for pre-notification
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                preNotifyTime.getTimeInMillis(),
-                preNotifyPendingIntent
-            );
-            
+            setAlarm(preNotifyTime.getTimeInMillis(), preNotifyPendingIntent);
+
             Log.d(TAG, "Scheduled pre-notification for " + schedule.getName() + " at " + 
                   String.format("%02d:%02d on %s", 
                               preNotifyTime.get(Calendar.HOUR_OF_DAY), 
@@ -171,6 +155,24 @@ public class ScheduleActivator {
         }
     }
     
+    private void setAlarm(long triggerAtMillis, PendingIntent pendingIntent) {
+        if (AlarmPermissionManager.canScheduleExactAlarms(context)) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            );
+        } else {
+            Log.w(TAG, "Exact alarm permission not granted, falling back to windowed alarm");
+            alarmManager.setWindow(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                10 * 60 * 1000L,
+                pendingIntent
+            );
+        }
+    }
+
     /**
      * Cancel a specific schedule
      */
