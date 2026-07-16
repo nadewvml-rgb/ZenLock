@@ -101,6 +101,46 @@
 
             </LinearLayout>
 
+            <!-- Background Reliability Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Background Reliability"
+                    style="@style/ModernText.Body"
+                    android:textColor="@color/textPrimary"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/batteryExemptionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exclude ZenLock from battery optimization so scheduled sessions always start on time"
+                    style="@style/ModernText.Caption"
+                    android:textColor="@color/textSecondary"
+                    android:layout_marginBottom="16dp"/>
+
+                <Button
+                    android:id="@+id/batteryExemptionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Allow Unrestricted Battery"
+                    style="@style/ModernButton.Primary"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:drawableStart="@drawable/ic_battery_protect"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

@@ -124,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
             
             scheduleActivator.scheduleAllSchedules();
             Log.d(TAG, "Schedule activation process completed");
+
+            if (new com.grepguru.zenlock.utils.ScheduleManager(this).hasEnabledSchedules()) {
+                com.grepguru.zenlock.utils.BatteryOptimizationManager.showScheduleReliabilityDialogIfNeeded(this);
+            }
         } catch (Exception e) {
             Log.e(TAG, "Failed to activate schedules", e);
         }

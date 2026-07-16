@@ -31,6 +31,7 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
     private Button accessibilityButton;
     private Button overlayButton;
     private Button alarmButton;
+    private Button batteryButton;
     private Button miuiButton;
     private Button continueButton;
     private Button skipButton;
@@ -38,6 +39,7 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
     private CardView accessibilityCard;
     private CardView overlayCard;
     private CardView alarmCard;
+    private CardView batteryCard;
     private CardView miuiCard;
     
     // Accessibility consent tracking
@@ -64,6 +66,7 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
         accessibilityButton = findViewById(R.id.accessibilityButton);
         overlayButton = findViewById(R.id.overlayButton);
         alarmButton = findViewById(R.id.alarmButton);
+        batteryButton = findViewById(R.id.batteryButton);
         miuiButton = findViewById(R.id.miuiButton);
         continueButton = findViewById(R.id.continueButton);
         skipButton = findViewById(R.id.skipButton);
@@ -71,6 +74,7 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
         accessibilityCard = findViewById(R.id.accessibilityCard);
         overlayCard = findViewById(R.id.overlayCard);
         alarmCard = findViewById(R.id.alarmCard);
+        batteryCard = findViewById(R.id.batteryCard);
         miuiCard = findViewById(R.id.miuiCard);
     }
     
@@ -78,6 +82,7 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
         accessibilityButton.setOnClickListener(v -> showAccessibilityDisclosure());
         overlayButton.setOnClickListener(v -> requestOverlayPermission());
         alarmButton.setOnClickListener(v -> requestAlarmPermission());
+        batteryButton.setOnClickListener(v -> requestBatteryExemption());
         miuiButton.setOnClickListener(v -> requestMiuiPermission());
         continueButton.setOnClickListener(v -> completeOnboarding());
         skipButton.setOnClickListener(v -> completeOnboarding());
@@ -136,6 +141,11 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
         }
     }
 
+    private void requestBatteryExemption() {
+        com.grepguru.zenlock.utils.BatteryOptimizationManager.requestExemption(this);
+        Toast.makeText(this, "Please allow ZenLock to run without battery restrictions", Toast.LENGTH_LONG).show();
+    }
+
     private void requestMiuiPermission() {
         MiuiUtils.openMiuiPermissionEditor(this);
         Toast.makeText(this, "Enable 'Display pop-up windows while running in background' for ZenLock", Toast.LENGTH_LONG).show();
@@ -156,6 +166,8 @@ public class PermissionsOnboardingActivity extends AppCompatActivity {
         }
 
         updatePermissionCard(overlayCard, overlayButton, overlayGranted, "Granted", "Grant");
+        updatePermissionCard(batteryCard, batteryButton,
+                com.grepguru.zenlock.utils.BatteryOptimizationManager.isExempt(this), "Granted", "Grant");
         // Only show alarm permission for API 31+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             updatePermissionCard(alarmCard, alarmButton, alarmGranted, "Granted", "Grant");

@@ -275,6 +275,11 @@ public class SettingsFragment extends Fragment {
             startActivity(intent);
         });
 
+        Button batteryExemptionButton = view.findViewById(R.id.batteryExemptionButton);
+        batteryExemptionButton.setOnClickListener(v ->
+                com.grepguru.zenlock.utils.BatteryOptimizationManager.requestExemption(requireContext()));
+        updateBatteryExemptionState(view);
+
         // PIN Unlock Toggle
         pinUnlockToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -415,6 +420,24 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    private void updateBatteryExemptionState(View view) {
+        Button batteryExemptionButton = view.findViewById(R.id.batteryExemptionButton);
+        android.widget.TextView statusText = view.findViewById(R.id.batteryExemptionStatus);
+        if (batteryExemptionButton == null || statusText == null) {
+            return;
+        }
+        boolean exempt = com.grepguru.zenlock.utils.BatteryOptimizationManager.isExempt(requireContext());
+        if (exempt) {
+            batteryExemptionButton.setText("Unrestricted Battery Enabled");
+            batteryExemptionButton.setEnabled(false);
+            statusText.setText("ZenLock is excluded from battery optimization — schedules will run reliably");
+        } else {
+            batteryExemptionButton.setText("Allow Unrestricted Battery");
+            batteryExemptionButton.setEnabled(true);
+            statusText.setText("Exclude ZenLock from battery optimization so scheduled sessions always start on time");
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -429,6 +452,9 @@ public class SettingsFragment extends Fragment {
             return;
         }
         updateUnlockMethodStates();
+        if (getView() != null) {
+            updateBatteryExemptionState(getView());
+        }
 
         // Check if notification blocking is enabled but permission not granted (prompt once)
         if (preferences.getBoolean("block_notifications", true)

@@ -101,6 +101,7 @@ public class ScheduleFragment extends Fragment {
                         // Schedule was enabled, activate it
                         scheduleActivator.scheduleSchedule(updatedSchedule);
                         Toast.makeText(requireContext(), "Schedule activated: " + updatedSchedule.getName(), Toast.LENGTH_SHORT).show();
+                        com.grepguru.zenlock.utils.BatteryOptimizationManager.showScheduleReliabilityDialogIfNeeded(requireContext());
                     } else {
                         // Schedule was disabled, cancel it
                         scheduleActivator.cancelSchedule(updatedSchedule);
@@ -200,6 +201,7 @@ public class ScheduleFragment extends Fragment {
                 if (newSchedule.isEnabled()) {
                     scheduleActivator.scheduleSchedule(newSchedule);
                     Toast.makeText(requireContext(), "Schedule created and activated: " + newSchedule.getName(), Toast.LENGTH_SHORT).show();
+                    com.grepguru.zenlock.utils.BatteryOptimizationManager.showScheduleReliabilityDialogIfNeeded(requireContext());
                 } else {
                     Toast.makeText(requireContext(), "Schedule created: " + newSchedule.getName(), Toast.LENGTH_SHORT).show();
                 }
