@@ -56,66 +56,25 @@ class ShieldConfigurationExtension: ShieldConfigurationDataSource {
 
     private func blockConfiguration(group: SharedBlockGroup?, groupName: String, tint: UIColor) -> ShieldConfiguration {
         let isDeepFocus = group?.deepFocusEnabled ?? false
-        let openCount = group.map { currentDailyOpenCount(for: $0.id) } ?? 0
 
-        let capReached: Bool = {
-            guard let cap = group?.maxOpensPerDay else { return false }
-            return openCount >= cap
-        }()
+        let subtitle = group?.customShieldMessage ?? "This app is blocked by ZenLock."
 
-        var subtitleParts: [String] = []
-        if let msg = group?.customShieldMessage {
-            subtitleParts.append(msg)
-        } else {
-            subtitleParts.append("This app is blocked by ZenLock.")
-        }
-        if let cap = group?.maxOpensPerDay {
-            subtitleParts.append("\(openCount)/\(cap) opens today")
-        }
-        if let mins = group?.maxMinutesPerOpen {
-            subtitleParts.append("\(mins) min per open")
-        }
+        let secondaryLabel: ShieldConfiguration.Label? = isDeepFocus
+            ? nil
+            : ShieldConfiguration.Label(text: "Request Unlock", color: .white)
 
-        let canBypass = !isDeepFocus && !capReached
-        let secondaryText: String
-        if capReached {
-            secondaryText = ""
-        } else if group?.maxMinutesPerOpen != nil || group?.maxOpensPerDay != nil {
-            secondaryText = "Open Anyway"
-        } else {
-            secondaryText = "Request Unlock"
-        }
-        let secondaryLabel: ShieldConfiguration.Label? = canBypass
-            ? ShieldConfiguration.Label(text: secondaryText, color: .white)
-            : nil
-
-        let title: String
-        if capReached {
-            title = "🚫 Daily Limit Reached"
-        } else if isDeepFocus {
-            title = "🔒 \(groupName)"
-        } else {
-            title = "🧘 \(groupName)"
-        }
+        let title = isDeepFocus ? "🔒 \(groupName)" : "🧘 \(groupName)"
 
         return ShieldConfiguration(
             backgroundBlurStyle: .systemUltraThinMaterialDark,
             backgroundColor: UIColor.black.withAlphaComponent(0.85),
             icon: nil,
             title: ShieldConfiguration.Label(text: title, color: .white),
-            subtitle: ShieldConfiguration.Label(text: subtitleParts.joined(separator: "\n"), color: UIColor.white.withAlphaComponent(0.7)),
+            subtitle: ShieldConfiguration.Label(text: subtitle, color: UIColor.white.withAlphaComponent(0.7)),
             primaryButtonLabel: ShieldConfiguration.Label(text: "Close App", color: .white),
             primaryButtonBackgroundColor: tint,
             secondaryButtonLabel: secondaryLabel
         )
-    }
-
-    private func currentDailyOpenCount(for groupId: String) -> Int {
-        let today = Calendar.current.startOfDay(for: Date())
-        let dateKey = Constants.Keys.openCountDatePrefix + groupId
-        let stored = defaults?.object(forKey: dateKey) as? Date
-        if stored != today { return 0 }
-        return defaults?.integer(forKey: Constants.Keys.openCountPrefix + groupId) ?? 0
     }
 }
 

@@ -118,7 +118,6 @@ final class BlockingService {
         scheduleManager.stopMonitoring(forGroupId: shared.id)
 
         storage.setGroupActive(shared.id, false)
-        storage.resetOpenCount(shared.id)
         syncGroupToAppGroups(group)
         return .success(())
     }
@@ -147,11 +146,6 @@ final class BlockingService {
                 break
             }
         }
-    }
-
-    private func isInFrictionBypass(_ groupId: String) -> Bool {
-        guard let until = Constants.sharedDefaults?.object(forKey: "friction_bypass_until_\(groupId)") as? Date else { return false }
-        return Date() < until
     }
 
     func syncGroupToAppGroups(_ group: BlockGroup) {

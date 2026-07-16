@@ -24,9 +24,6 @@ struct SharedBlockGroup: Codable, Identifiable, Sendable {
     var deepFocusEnabled: Bool
     var customShieldMessage: String?
 
-    var maxOpensPerDay: Int?
-    var maxMinutesPerOpen: Int?
-
     init(
         id: String = UUID().uuidString,
         name: String,
@@ -45,9 +42,7 @@ struct SharedBlockGroup: Codable, Identifiable, Sendable {
         scheduleRepeats: Bool = false,
         notifyBeforeStart: Bool = false,
         deepFocusEnabled: Bool = false,
-        customShieldMessage: String? = nil,
-        maxOpensPerDay: Int? = nil,
-        maxMinutesPerOpen: Int? = nil
+        customShieldMessage: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -67,8 +62,6 @@ struct SharedBlockGroup: Codable, Identifiable, Sendable {
         self.notifyBeforeStart = notifyBeforeStart
         self.deepFocusEnabled = deepFocusEnabled
         self.customShieldMessage = customShieldMessage
-        self.maxOpensPerDay = maxOpensPerDay
-        self.maxMinutesPerOpen = maxMinutesPerOpen
     }
 }
 
@@ -107,8 +100,6 @@ extension SharedBlockGroup {
         self.notifyBeforeStart = try c.decodeIfPresent(Bool.self, forKey: .notifyBeforeStart) ?? false
         self.deepFocusEnabled = try c.decodeIfPresent(Bool.self, forKey: .deepFocusEnabled) ?? false
         self.customShieldMessage = try c.decodeIfPresent(String.self, forKey: .customShieldMessage)
-        self.maxOpensPerDay = try c.decodeIfPresent(Int.self, forKey: .maxOpensPerDay)
-        self.maxMinutesPerOpen = try c.decodeIfPresent(Int.self, forKey: .maxMinutesPerOpen)
     }
 }
 

@@ -29,9 +29,6 @@ final class BlockGroup {
     var deepFocusEnabled: Bool
     var customShieldMessage: String?
 
-    var maxOpensPerDay: Int?
-    var maxMinutesPerOpen: Int?
-
     var createdAt: Date
     var updatedAt: Date
 
@@ -53,9 +50,7 @@ final class BlockGroup {
         scheduleRepeats: Bool = false,
         notifyBeforeStart: Bool = false,
         deepFocusEnabled: Bool = false,
-        customShieldMessage: String? = nil,
-        maxOpensPerDay: Int? = nil,
-        maxMinutesPerOpen: Int? = nil
+        customShieldMessage: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -75,8 +70,6 @@ final class BlockGroup {
         self.notifyBeforeStart = notifyBeforeStart
         self.deepFocusEnabled = deepFocusEnabled
         self.customShieldMessage = customShieldMessage
-        self.maxOpensPerDay = maxOpensPerDay
-        self.maxMinutesPerOpen = maxMinutesPerOpen
         self.createdAt = Date()
         self.updatedAt = Date()
     }
@@ -108,9 +101,7 @@ final class BlockGroup {
             scheduleRepeats: scheduleRepeats,
             notifyBeforeStart: notifyBeforeStart,
             deepFocusEnabled: deepFocusEnabled,
-            customShieldMessage: customShieldMessage,
-            maxOpensPerDay: maxOpensPerDay,
-            maxMinutesPerOpen: maxMinutesPerOpen
+            customShieldMessage: customShieldMessage
         )
     }
 }

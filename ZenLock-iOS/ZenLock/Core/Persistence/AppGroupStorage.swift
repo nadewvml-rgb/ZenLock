@@ -31,17 +31,6 @@ final class AppGroupStorage {
         defaults?.bool(forKey: Constants.Keys.activeGroupPrefix + id) ?? false
     }
 
-    func incrementOpenCount(_ id: String) -> Int {
-        let key = Constants.Keys.openCountPrefix + id
-        let count = (defaults?.integer(forKey: key) ?? 0) + 1
-        defaults?.set(count, forKey: key)
-        return count
-    }
-
-    func resetOpenCount(_ id: String) {
-        defaults?.removeObject(forKey: Constants.Keys.openCountPrefix + id)
-    }
-
     func setScheduleStartTime(_ date: Date, forGroupId id: String) {
         defaults?.set(date, forKey: "schedule_start_\(id)")
     }

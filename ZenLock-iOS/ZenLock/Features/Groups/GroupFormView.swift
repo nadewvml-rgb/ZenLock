@@ -264,37 +264,6 @@ struct GroupFormView: View {
                 ), in: 0...Double(max(usageLimitOptions.count - 1, 1)), step: 1)
                 .tint(ZenTheme.primary)
 
-                Divider().background(ZenTheme.surfaceLight.opacity(0.5))
-
-                ZenToggle(isOn: $draft.enableOpenLimit, label: "Limit Opens Per Day")
-                if draft.enableOpenLimit {
-                    HStack {
-                        Text("Max \(draft.maxOpensPerDay) opens / day")
-                            .font(ZenTheme.body)
-                            .foregroundStyle(ZenTheme.text)
-                        Spacer()
-                    }
-                    Slider(value: Binding(
-                        get: { Double(draft.maxOpensPerDay) },
-                        set: { draft.maxOpensPerDay = Int($0) }
-                    ), in: 1...120, step: 1)
-                    .tint(ZenTheme.primary)
-                }
-
-                ZenToggle(isOn: $draft.enableSessionLimit, label: "Limit Per-Session Duration")
-                if draft.enableSessionLimit {
-                    HStack {
-                        Text("\(draft.maxMinutesPerOpen) min per open")
-                            .font(ZenTheme.body)
-                            .foregroundStyle(ZenTheme.text)
-                        Spacer()
-                    }
-                    Slider(value: Binding(
-                        get: { Double(draft.maxMinutesPerOpen) },
-                        set: { draft.maxMinutesPerOpen = Int($0) }
-                    ), in: 1...50, step: 1)
-                    .tint(ZenTheme.primary)
-                }
             }
             .padding(ZenTheme.Spacing.md)
         }

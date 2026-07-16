@@ -19,11 +19,6 @@ struct GroupDraft {
     var usageLimitMinutes: Int = 60
     var usagePeriod: UsagePeriod = .daily
 
-    var enableOpenLimit: Bool = false
-    var maxOpensPerDay: Int = 5
-    var enableSessionLimit: Bool = false
-    var maxMinutesPerOpen: Int = 5
-
     var deepFocusEnabled: Bool = false
 
     var hasSelectedApps: Bool {
@@ -47,10 +42,6 @@ extension GroupDraft {
         self.notifyBeforeStart = group.notifyBeforeStart
         self.usageLimitMinutes = group.usageLimitMinutes ?? 60
         self.usagePeriod = group.usagePeriod ?? .daily
-        self.enableOpenLimit = group.maxOpensPerDay != nil
-        self.maxOpensPerDay = group.maxOpensPerDay ?? 5
-        self.enableSessionLimit = group.maxMinutesPerOpen != nil
-        self.maxMinutesPerOpen = group.maxMinutesPerOpen ?? 5
         self.deepFocusEnabled = group.deepFocusEnabled
     }
 
@@ -69,8 +60,6 @@ extension GroupDraft {
         group.notifyBeforeStart = notifyBeforeStart
         group.usageLimitMinutes = usageLimitMinutes
         group.usagePeriod = usagePeriod
-        group.maxOpensPerDay = enableOpenLimit ? maxOpensPerDay : nil
-        group.maxMinutesPerOpen = enableSessionLimit ? maxMinutesPerOpen : nil
         group.deepFocusEnabled = deepFocusEnabled
         group.updatedAt = Date()
     }

@@ -41,24 +41,8 @@ class ShieldActionExtension: ShieldActionDelegate {
                 return
             }
 
-            if let group, group.blockMode == .usageBased {
-                if let cap = group.maxOpensPerDay, dailyOpenCount(for: group.id) >= cap {
-                    completionHandler(.close)
-                    return
-                }
-                if group.maxMinutesPerOpen != nil || group.maxOpensPerDay != nil {
-                    bumpOpenCount(for: group.id)
-                    let session = (group.maxMinutesPerOpen ?? 5) * 60
-                    grantFrictionBypass(for: group.id, seconds: session)
-                    completionHandler(.close)
-                } else {
-                    requestUnlock()
-                    completionHandler(.close)
-                }
-            } else {
-                requestUnlock()
-                completionHandler(.close)
-            }
+            requestUnlock()
+            completionHandler(.close)
 
         default:
             completionHandler(.close)
@@ -83,34 +67,6 @@ class ShieldActionExtension: ShieldActionDelegate {
             return []
         }
         return groups
-    }
-
-    private func bumpOpenCount(for groupId: String) {
-        rolloverDailyCountIfNeeded(for: groupId)
-        let key = Constants.Keys.openCountPrefix + groupId
-        let count = (defaults?.integer(forKey: key) ?? 0) + 1
-        defaults?.set(count, forKey: key)
-    }
-
-    private func dailyOpenCount(for groupId: String) -> Int {
-        rolloverDailyCountIfNeeded(for: groupId)
-        return defaults?.integer(forKey: Constants.Keys.openCountPrefix + groupId) ?? 0
-    }
-
-    private func rolloverDailyCountIfNeeded(for groupId: String) {
-        let today = Calendar.current.startOfDay(for: Date())
-        let dateKey = Constants.Keys.openCountDatePrefix + groupId
-        let stored = defaults?.object(forKey: dateKey) as? Date
-        if stored != today {
-            defaults?.set(0, forKey: Constants.Keys.openCountPrefix + groupId)
-            defaults?.set(today, forKey: dateKey)
-        }
-    }
-
-    private func grantFrictionBypass(for groupId: String, seconds: Int) {
-        let expiry = Date().addingTimeInterval(TimeInterval(seconds))
-        defaults?.set(expiry, forKey: "friction_bypass_until_\(groupId)")
-        ManagedSettingsStore(named: .init(groupId)).clearAllSettings()
     }
 
     private func requestUnlock() {
