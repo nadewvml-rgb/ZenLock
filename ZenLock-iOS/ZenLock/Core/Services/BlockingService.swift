@@ -124,6 +124,9 @@ final class BlockingService {
     }
 
     /// Re-evaluate active groups and sync shield state on app foreground.
+    /// Called every time the app comes to foreground. iOS is known to silently
+    /// drop DeviceActivity registrations after a few days, so time-based groups
+    /// are re-registered here in addition to re-evaluating the shield directly.
     func evaluateActiveGroups(_ groups: [BlockGroup]) {
         for group in groups where group.isActive {
             guard let selection = group.decodedSelection else {
@@ -133,6 +136,8 @@ final class BlockingService {
 
             switch shared.blockMode {
             case .timeBased:
+                scheduleManager.stopMonitoring(forGroupId: shared.id)
+                try? scheduleManager.startMonitoring(for: shared, selection: selection)
                 if ScheduleEvaluator.isWithinSchedule(shared) {
                     shieldManager.applyShield(for: shared, selection: selection)
                 } else {
