@@ -10,8 +10,8 @@ android {
         applicationId = "com.grepguru.zenlock"
         minSdk = 28
         targetSdk = 36
-        versionCode = 38
-        versionName = "1.12.0"
+        versionCode = 39
+        versionName = "1.13.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     // major.minor.patch
@@ -40,8 +40,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_15
-        targetCompatibility = JavaVersion.VERSION_15
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     // Product flavors:
@@ -75,17 +75,17 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.cardview)
+    implementation(libs.gson)
     
     // Room components for SQLite database
-    implementation("androidx.room:room-runtime:2.6.1")
+    implementation(libs.room.runtime)
     // room-ktx removed: this is a Java project, room-runtime is sufficient
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    annotationProcessor(libs.room.compiler)
     
     // LiveData for reactive UI updates
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation(libs.lifecycle.livedata)
+    implementation(libs.lifecycle.viewmodel)
     
     // MPAndroidChart for native charts
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
