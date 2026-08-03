@@ -856,16 +856,11 @@ public class LockScreenActivity extends AppCompatActivity {
         // Initialize the timer using total duration so progress reflects overall session
         currentTimer.initialize(totalTimeMs);
 
-        // Hide quotes for circular timer to save space
+        // Show quotes for all timer styles if quotes are enabled
         TextView lockscreenMessage = findViewById(R.id.lockscreenMessage);
         if (lockscreenMessage != null) {
-            if ("circular".equals(timerStyle)) {
-                lockscreenMessage.setVisibility(View.GONE);
-            } else {
-                // Digital timer: check if quotes are enabled
-                boolean quotesEnabled = preferences.getBoolean("show_quotes", true);
-                lockscreenMessage.setVisibility(quotesEnabled ? View.VISIBLE : View.GONE);
-            }
+            boolean quotesEnabled = preferences.getBoolean("show_quotes", true);
+            lockscreenMessage.setVisibility(quotesEnabled ? View.VISIBLE : View.GONE);
         }
     }
 
