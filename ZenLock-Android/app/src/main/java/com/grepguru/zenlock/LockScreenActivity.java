@@ -799,21 +799,22 @@ public class LockScreenActivity extends AppCompatActivity {
 
         // Motivational quotes array
         String[] quotes = {
-            "The only way to do great work is to love what you do.",
-            "Focus on being productive instead of busy.",
-            "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-            "The future depends on what you do today.",
-            "Don't watch the clock, do what it does. Keep going.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "It always seems impossible until it's done.",
-            "The way to get started is to quit talking and begin doing.",
-            "Your time is limited, don't waste it living someone else's life.",
-            "The only person you are destined to become is the person you decide to be.",
+            "තව දවස් ටිකයි නේ තියෙන්නේ වැඩ කරමු.",
+            "කම්මැලිද? එහෙනම් නැගිටලා වැඩ කරපන්.",
+            "වැඩ නොකරත් S3ත් නෑ. ගෙදර තමයි ඉන්න වෙන්නෙ.",
+            "පුළුවන් තරම් පේපර්ම කරපන්.",
+            "පොඩි කාලෙයිනේ යූටියුබ් පැත්තේ ගිහිල්ලා පිස්සු කෙලින්න එපා.",
+            "අවශ්‍යම පාඩම් ටික බලාගනින් හොඳට.",
+            "පේපර් ලියනකොට සිහියෙන් ලියපන්, සින්දු අහන්න එපා.",
+            "යකෝ අනිත් යැවුන් යක්කු වගේ වැඩ කරන්නේ.",
+            "ඔහොම ගියොත් Plan ඔලුවෙම තමයි තියන් ඉන්නේ වෙන්නේ.",
+            "වැඩ කරපන් යකෝ, වැඩ කරපන්...",
             "Stay focused, stay productive!",
-            "Every moment is a fresh beginning.",
-            "Make today amazing!",
-            "You are capable of amazing things.",
-            "Focus on progress, not perfection."
+            "අවධානය කොතනද? උඹ එතන ඉන්න ඕන.",
+            "අද දවස පිස්සුවක් කරමු.",
+            "වෙන වැඩ කරන්න කාලයක් නෑ හරිද ?",
+            "මාසයක් නෑනේ, මේ ටික කරමු.",
+            "බලපන් ඊට පස්සේ අපිට කොච්චර වැඩ තියෙද කියල කරන්න, දැන් ඔය ටික කරපන්."
         };
 
         // Select a random quote
