@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Device Admin policy declaration for ZenLock.
+  Place this file at: app/src/main/res/xml/device_admin.xml
+
+  The only policy used is WATCH_LOGIN, which is the minimal requirement to
+  appear as a device admin app. No remote-wipe, lock, or password policies
+  are requested — this is purely for uninstall prevention.
+-->
+<device-admin xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-policies>
+        <!-- Minimal policy — required to register as a device admin at all. -->
+        <watch-login />
+    </uses-policies>
+</device-admin>
