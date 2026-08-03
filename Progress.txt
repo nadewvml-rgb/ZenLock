@@ -7,4 +7,6 @@ Android Build #3
 
 Android Build #4
 - target date countdown add කරා (UI එකෙන් තවම setup එක හදන්න බෑ) lock screen එකේ පෙන්නනවා. file - res/raw/targets.json
+
+Android Build #5
 - add සිංහල motivation quotes to lockscreen
