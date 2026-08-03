@@ -1,0 +1,34 @@
+[
+  {
+    "label": "A/L Exam Begin",
+    "datetime": "2026-08-10T09:00:00"
+  },
+  {
+    "label": "ET Part 1",
+    "datetime": "2026-08-12T08:00:00"
+  }
+  {
+    "label": "ET Part 2",
+    "datetime": "2026-08-14T08:00:00"
+  }
+  {
+    "label": "SFT Part 1",
+    "datetime": "2026-08-19T08:00:00"
+  }
+  {
+    "label": "SFT Part 2",
+    "datetime": "2026-08-21T08:00:00"
+  }
+  {
+    "label": "ICT Part 1",
+    "datetime": "2026-08-29T08:00:00"
+  }
+  {
+    "label": "ICT Part 2",
+    "datetime": "2026-09-01T08:00:00"
+  }
+  {
+    "label": "A/L Over 🎉",
+    "datetime": "2026-09-01T08:11:40"
+  }
+]
