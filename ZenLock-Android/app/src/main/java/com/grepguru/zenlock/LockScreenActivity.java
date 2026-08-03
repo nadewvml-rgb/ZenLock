@@ -688,7 +688,10 @@ public class LockScreenActivity extends AppCompatActivity {
         android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
         layout.setOrientation(android.widget.LinearLayout.VERTICAL);
         layout.setPadding(48, 48, 48, 32);
-        layout.setBackgroundColor(android.graphics.Color.parseColor("#1A2235"));
+        android.graphics.drawable.GradientDrawable popupBg = new android.graphics.drawable.GradientDrawable();
+        popupBg.setColor(android.graphics.Color.parseColor("#1A2235"));
+        popupBg.setCornerRadius(48f);
+        layout.setBackground(popupBg);
 
         // Title
         android.widget.TextView title = new android.widget.TextView(this);
