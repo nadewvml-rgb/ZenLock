@@ -11,5 +11,6 @@ Android Build #4
 Android Build #5
 - add සිංහල motivation quotes to lockscreen.
 
-Android Build #6
+Android Build #6 / #7 / #8
 - fix some UI bugs.
+- තවමත් තියෙනවා lock screen UI එකේ ප්‍රශ්නයක්...
