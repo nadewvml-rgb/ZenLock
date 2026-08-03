@@ -1,0 +1,10 @@
+Android Build #3
+- restart logic එක සවිමත් කරා. 
+- shedule එක ආරම්භ වීමට මිනිත්තු 20කට කලින් edit, delete සහ disable යන පහසුකම් ක්‍රියාවිරහිත කරනවා. 
+- allowed app count එක 4 සිට 10 දක්වා වැඩි කරා.
+- Device admin app list එකට app එක දැම්මා - Uninstall Prevention
+- Application navigation var white to dark.
+
+Android Build #4
+- target date countdown add කරා (UI එකෙන් තවම setup එක හදන්න බෑ) lock screen එකේ පෙන්නනවා. file - res/raw/targets.json
+- add සිංහල motivation quotes to lockscreen
